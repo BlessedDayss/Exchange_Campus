@@ -1,5 +1,6 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Inter } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -86,13 +87,15 @@ const theme = extendTheme({
   },
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <ChakraProvider theme={theme}>
-      <main className={inter.className}>
-        <Component {...pageProps} />
-      </main>
-    </ChakraProvider>
+    <SessionProvider session={session}>
+      <ChakraProvider theme={theme}>
+        <main className={inter.className}>
+          <Component {...pageProps} />
+        </main>
+      </ChakraProvider>
+    </SessionProvider>
   );
 }
 

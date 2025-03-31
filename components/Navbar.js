@@ -11,11 +11,19 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import NextLink from 'next/link';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { useSession, signOut } from 'next-auth/react';
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const { data: session } = useSession();
 
   return (
     <Box 
@@ -48,16 +56,19 @@ export default function Navbar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily="heading"
-            fontWeight="bold"
-            fontSize={{ base: 'xl', md: '2xl' }}
-            bgGradient="linear(to-r, brand.500, accent.500)"
-            bgClip="text"
-          >
-            Exchange Campus
-          </Text>
+          <NextLink href="/" passHref>
+            <Text
+              textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+              fontFamily="heading"
+              fontWeight="bold"
+              fontSize={{ base: 'xl', md: '2xl' }}
+              bgGradient="linear(to-r, brand.500, accent.500)"
+              bgClip="text"
+              cursor="pointer"
+            >
+              Exchange Campus
+            </Text>
+          </NextLink>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -70,38 +81,81 @@ export default function Navbar() {
           direction="row"
           spacing={6}
         >
-          <Button
-            as="a"
-            fontSize="sm"
-            fontWeight={600}
-            variant="ghost"
-            color="gray.600"
-            href="#"
-            _hover={{
-              color: 'brand.500',
-            }}
-          >
-            Sign In
-          </Button>
-          <Button
-            as="a"
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="sm"
-            fontWeight={600}
-            color="white"
-            bg="brand.500"
-            href="#"
-            _hover={{
-              bg: 'brand.600',
-            }}
-          >
-            Sign Up
-          </Button>
+          {session ? (
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded={'full'}
+                variant={'link'}
+                cursor={'pointer'}
+                minW={0}
+              >
+                <Flex align="center">
+                  <Avatar 
+                    size={'sm'} 
+                    mr={2} 
+                    name={session.user.name} 
+                    src={session.user.image}
+                  />
+                  <Text display={{ base: 'none', md: 'block' }}>
+                    {session.user.name}
+                  </Text>
+                  <ChevronDownIcon ml={1} />
+                </Flex>
+              </MenuButton>
+              <MenuList>
+                <MenuItem as={NextLink} href="/profile">
+                  Profile
+                </MenuItem>
+                <MenuItem as={NextLink} href="/dashboard">
+                  Dashboard
+                </MenuItem>
+                {session.user.role === 'admin' && (
+                  <MenuItem as={NextLink} href="/admin">
+                    Admin Panel
+                  </MenuItem>
+                )}
+                <MenuItem as={NextLink} href="/auth/signout">
+                  Sign Out
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <>
+              <Button
+                as={NextLink}
+                href="/auth/signin"
+                fontSize="sm"
+                fontWeight={600}
+                variant="ghost"
+                color="gray.600"
+                _hover={{
+                  color: 'brand.500',
+                }}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={NextLink}
+                href="/auth/signin"
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize="sm"
+                fontWeight={600}
+                color="white"
+                bg="brand.500"
+                _hover={{
+                  bg: 'brand.600',
+                }}
+              >
+                Register
+              </Button>
+            </>
+          )}
         </Stack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav session={session} />
       </Collapse>
     </Box>
   );
@@ -134,7 +188,7 @@ const DesktopNav = () => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ session }) => {
   return (
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
@@ -144,6 +198,22 @@ const MobileNav = () => {
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
+      
+      {session ? (
+        <>
+          <MobileNavItem label="Profile" href="/profile" />
+          <MobileNavItem label="Dashboard" href="/dashboard" />
+          {session.user.role === 'admin' && (
+            <MobileNavItem label="Admin Panel" href="/admin" />
+          )}
+          <MobileNavItem label="Sign Out" href="/auth/signout" />
+        </>
+      ) : (
+        <>
+          <MobileNavItem label="Sign In" href="/auth/signin" />
+          <MobileNavItem label="Register" href="/auth/signup" />
+        </>
+      )}
     </Stack>
   );
 };
