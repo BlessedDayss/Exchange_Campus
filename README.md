@@ -58,9 +58,7 @@ ExchangeCampus/
 │   └── profile/            # User profile related pages
 ├── public/                 # Static assets (images, fonts, favicon.ico)
 ├── styles/                 # Global styles (globals.css)
-├── .env.local.example      # Example environment variables file (you should create .env.local)
 ├── .gitignore              # Specifies intentionally untracked files that Git should ignore
-├── next.config.js          # Next.js configuration file
 ├── package.json            # Project metadata, dependencies, and scripts
 ├── postcss.config.js       # PostCSS configuration (used by Tailwind CSS)
 ├── tailwind.config.js      # Tailwind CSS configuration
