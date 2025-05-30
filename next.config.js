@@ -4,7 +4,7 @@ const nextConfig = {
     basePath: process.env.NODE_ENV === 'production' ? '/ExchangeCampus' : '',
     assetPrefix: process.env.NODE_ENV === 'production' ? '/ExchangeCampus/' : '',
     images: {
-      unoptimized: true,
+      domains: ['images.unsplash.com'],
     },
     trailingSlash: true,
   }
