@@ -134,6 +134,8 @@ export default function CallToAction() {
                 w={{ base: 'full', sm: 'auto' }}
               >
                 <Button
+                  as="a"
+                  href="/auth/signin"
                   size="lg"
                   bg="white"
                   color="brand.600"
@@ -144,6 +146,7 @@ export default function CallToAction() {
                   fontWeight="bold"
                   px={8}
                   rightIcon={<FaArrowRight />}
+                  cursor="pointer"
                 >
                   Join Now - It's Free
                 </Button>
@@ -159,6 +162,12 @@ export default function CallToAction() {
                   borderColor="whiteAlpha.700"
                   fontWeight="bold"
                   px={8}
+                  cursor="pointer"
+                  onClick={() => {
+                    document.getElementById('features')?.scrollIntoView({ 
+                      behavior: 'smooth' 
+                    });
+                  }}
                 >
                   Learn More
                 </Button>

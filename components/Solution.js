@@ -107,16 +107,18 @@ export default function Solution() {
               </Stack>
               
               <Button
+                as="a"
+                href="/marketplace"
                 rightIcon={<FaChevronRight />}
                 colorScheme="brand"
                 size="lg"
                 fontWeight="bold"
                 rounded="full"
                 px={8}
-                as={motion.button}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 mt={2}
+                cursor="pointer"
               >
                 Start Exchanging
               </Button>

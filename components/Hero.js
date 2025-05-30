@@ -101,6 +101,8 @@ export default function Hero() {
                 direction={{ base: 'column', sm: 'row' }}
               >
                 <Button
+                  as="a"
+                  href="/marketplace"
                   rounded={'md'}
                   size={'lg'}
                   fontWeight={'medium'}
@@ -108,6 +110,7 @@ export default function Hero() {
                   colorScheme={'brand'}
                   bg={'brand.500'}
                   _hover={{ bg: 'brand.600' }}
+                  cursor="pointer"
                 >
                   Join the Marketplace
                 </Button>
@@ -117,13 +120,17 @@ export default function Hero() {
                   fontWeight={'medium'}
                   px={8}
                   leftIcon={<PlayIcon h={4} w={4} color={'gray.500'} />}
-                  href={'#how-it-works'}
-                  as={'a'}
                   variant={'outline'}
                   borderColor={'brand.500'}
                   color={'brand.500'}
                   _hover={{
                     bg: 'brand.50',
+                  }}
+                  cursor="pointer"
+                  onClick={() => {
+                    document.getElementById('how-it-works')?.scrollIntoView({ 
+                      behavior: 'smooth' 
+                    });
                   }}
                 >
                   Learn How It Works

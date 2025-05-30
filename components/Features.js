@@ -30,9 +30,9 @@ const MotionBox = motion(Box);
 export default function Features() {
   return (
     <Box 
-      id="features" 
-      py={20} 
-      bg={useColorModeValue('white', 'gray.900')}
+      id="features"
+      py={{ base: 16, md: 20 }} 
+      bg={useColorModeValue('white', 'gray.800')}
       position="relative"
       overflow="hidden"
     >
@@ -158,8 +158,9 @@ export default function Features() {
                   colorScheme="brand" 
                   size="lg"
                   rightIcon={<FaChevronRight />}
-                  as={Link}
-                  href="#"
+                  as="a"
+                  href="/marketplace"
+                  cursor="pointer"
                 >
                   Explore all features
                 </Button>

@@ -30,8 +30,8 @@ const MotionBox = motion(Box);
 export default function HowItWorks() {
   return (
     <Box 
-      id="how-it-works" 
-      py={20} 
+      id="how-it-works"
+      py={{ base: 16, md: 20 }}
       bg={useColorModeValue('gray.50', 'gray.900')}
       position="relative"
       overflow="hidden"
@@ -164,10 +164,13 @@ export default function HowItWorks() {
                     />
                   </SimpleGrid>
                   <Button 
+                    as="a"
+                    href="/marketplace"
                     mt={6} 
                     size="md" 
                     colorScheme="accent" 
                     variant="outline"
+                    cursor="pointer"
                   >
                     View Safety Guidelines
                   </Button>

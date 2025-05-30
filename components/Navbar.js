@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import {
   Box,
   Flex,
@@ -11,11 +12,21 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons';
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const { data: session } = useSession();
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   return (
     <Box 
@@ -49,12 +60,20 @@ export default function Navbar() {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <Text
+            as="a"
+            href="/"
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily="heading"
             fontWeight="bold"
             fontSize={{ base: 'xl', md: '2xl' }}
             bgGradient="linear(to-r, brand.500, accent.500)"
             bgClip="text"
+            cursor="pointer"
+            _hover={{
+              textDecoration: 'none',
+              transform: 'scale(1.05)',
+            }}
+            transition="transform 0.2s"
           >
             Exchange Campus
           </Text>
@@ -70,33 +89,60 @@ export default function Navbar() {
           direction="row"
           spacing={6}
         >
-          <Button
-            as="a"
-            fontSize="sm"
-            fontWeight={600}
-            variant="ghost"
-            color="gray.600"
-            href="#"
-            _hover={{
-              color: 'brand.500',
-            }}
-          >
-            Sign In
-          </Button>
-          <Button
-            as="a"
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="sm"
-            fontWeight={600}
-            color="white"
-            bg="brand.500"
-            href="#"
-            _hover={{
-              bg: 'brand.600',
-            }}
-          >
-            Sign Up
-          </Button>
+          {session ? (
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded="full"
+                variant="link"
+                cursor="pointer"
+                minW={0}
+              >
+                <Flex align="center">
+                  <Avatar 
+                    size="sm" 
+                    name={session.user.name}
+                    mr={2}
+                  />
+                  <Text display={{ base: 'none', md: 'block' }}>{session.user.name}</Text>
+                </Flex>
+              </MenuButton>
+              <MenuList>
+                <MenuItem as="a" href="/profile">Profile</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <>
+              <Button
+                as="a"
+                fontSize="sm"
+                fontWeight={600}
+                variant="ghost"
+                color="gray.600"
+                href="/auth/signin"
+                _hover={{
+                  color: 'brand.500',
+                }}
+              >
+                Sign In
+              </Button>
+              <Button
+                as="a"
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize="sm"
+                fontWeight={600}
+                color="white"
+                bg="brand.500"
+                href="/auth/signup"
+                _hover={{
+                  bg: 'brand.600',
+                }}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
         </Stack>
       </Flex>
 
@@ -173,6 +219,10 @@ const MobileNavItem = ({ label, href }) => {
 };
 
 const NAV_ITEMS = [
+  {
+    label: 'Marketplace',
+    href: '/marketplace',
+  },
   {
     label: 'Features',
     href: '#features',

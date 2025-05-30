@@ -8,6 +8,7 @@ import Problem from '../components/Problem';
 import AboutUs from '../components/AboutUs';
 import Solution from '../components/Solution';
 import Features from '../components/Features';
+import FeaturedMaterials from '../components/FeaturedMaterials';
 import HowItWorks from '../components/HowItWorks';
 import CallToAction from '../components/CallToAction';
 import Footer from '../components/Footer';
@@ -29,6 +30,7 @@ export default function Home() {
         <AboutUs />
         <Solution />
         <Features />
+        <FeaturedMaterials />
         <HowItWorks />
         <CallToAction />
         <Footer />
