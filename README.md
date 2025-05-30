@@ -78,10 +78,10 @@ ExchangeCampus/
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/BlessedDayss/Exchange_Campus.git
     cd ExchangeCampus
     ```
-    (Replace `https://github.com/BlessedDayss/Exchange-Campus.git` with the actual URL of your repository)
+    (Replace `https://github.com/BlessedDayss/Exchange_Campus.git` with the actual URL of your repository)
 
 2.  **Install dependencies:**
     ```bash
